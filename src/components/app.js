@@ -16,38 +16,37 @@ class App extends Component {
     this.renderNotes = this.renderNotes.bind(this);
   }
 
-  componentWillMount() {
-    this.setState({
-      notes: this.state.notes.set(count++, this.createNote('hello')),
-
-    });
-  }
+  // componentWillMount() {
+  //   this.setState({
+  //     notes: this.state.notes.set(count++, this.createNote('hello')),
+  //
+  //   });
+  // }
   createNote(title) {
     return {
       title,
+      text: '',
       x: 20,
       y: 20,
+      zIndex: 0,
     };
   }
-  test() {
-    console.log('asdf');
-  }
+
   renderNotes() {
-    console.log('asdf');
-    this.state.notes.Map((key, value) => <Note note={value} />);
+    if (this.state.notes.size > 0) {
+      return this.state.notes.entrySeq().map(([key, value]) =>
+        <Note note={value} id={key} onDelete={(id) => { this.state.notes.delete(id); }} />);
+    }
   }
   render() {
-    const ren = this.state.notes.entrySeq().map(([key, value]) => <Note note={value} id={key} />);
+    // const ren = this.state.notes.entrySeq().map(([key, value]) => <Note note={value} id={key} />);
     console.log(this.state.notes);
     return (
       <div>
         <InputBar onSubmit={(text) => {
           this.state.notes.set(count++, this.createNote(text));
         }} />
-        <Note onDelete={(id) => {
-          this.state.notes.delete(id);
-        }} />
-        {ren}
+        {this.renderNotes()}
       </div>
     );
   }

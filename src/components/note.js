@@ -6,14 +6,7 @@ class Note extends Component {
     super(props);
 
     this.state = {
-      id: {
-        title: '',
-        text: '',
-        x: 0,
-        y: 0,
-        zIndex: 0,
-        isEditing: false,
-      },
+      isEditing: false,
     };
     this.onDeleteClick = this.onDeleteClick.bind(this);
     this.EditClick = this.onEditClick.bind(this);
