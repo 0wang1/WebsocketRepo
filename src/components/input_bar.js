@@ -16,6 +16,7 @@ class InputBar extends Component {
 
   handleSubmit(event) {
     this.props.onSubmit(this.state.input);
+    this.state.input = '';
   }
   render() {
     return (

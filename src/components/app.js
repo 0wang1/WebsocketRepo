@@ -3,8 +3,7 @@ import Immutable from 'immutable';
 import Note from './note';
 import InputBar from './input_bar';
 
-let count = 0;
-
+let z = 0;
 class App extends Component {
   constructor(props) {
     super(props);
@@ -14,37 +13,40 @@ class App extends Component {
     };
     this.createNote = this.createNote.bind(this);
     this.renderNotes = this.renderNotes.bind(this);
+    this.updateNotes = this.updateNotes.bind(this);
   }
 
-  // componentWillMount() {
-  //   this.setState({
-  //     notes: this.state.notes.set(count++, this.createNote('hello')),
-  //
-  //   });
-  // }
   createNote(title) {
     return {
       title,
       text: '',
       x: 20,
       y: 20,
-      zIndex: 0,
+      zIndex: z++,
     };
   }
-
+  updateNotes(id, fields) {
+    this.setState({
+      notes: this.state.notes.update(id, (n) => { return Object.assign({}, n, fields); }),
+    });
+  }
   renderNotes() {
     if (this.state.notes.size > 0) {
       return this.state.notes.entrySeq().map(([key, value]) =>
-        <Note note={value} id={key} onDelete={(id) => { this.state.notes.delete(id); }} />);
+        <Note note={value} id={key} onUpdate={this.updateNotes}
+          onDelete={(id) => { this.setState({ notes: this.state.notes.delete(id) }); }}
+        />);
+    } else {
+      return false;
     }
   }
   render() {
-    // const ren = this.state.notes.entrySeq().map(([key, value]) => <Note note={value} id={key} />);
-    console.log(this.state.notes);
     return (
       <div>
         <InputBar onSubmit={(text) => {
-          this.state.notes.set(count++, this.createNote(text));
+          this.setState({
+            notes: this.state.notes.set(Math.random(), this.createNote(text)),
+          });
         }} />
         {this.renderNotes()}
       </div>

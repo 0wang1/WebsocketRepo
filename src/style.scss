@@ -33,17 +33,15 @@ i {
   cursor: pointer;
   margin-left: 10px;
 }
-i:nth-child(2){
-  cursor: pointer;
-  margin-left: 10px;
+
+i:nth-last-child(2) {
+  float: right;
 }
 
-i:nth-child(2):checked {
-  display: none;
-}
 i:last-child {
   float: right;
 }
+
 
 .note {
   background-color: lightyellow;

@@ -9,40 +9,57 @@ class Note extends Component {
       isEditing: false,
     };
     this.onDeleteClick = this.onDeleteClick.bind(this);
-    this.EditClick = this.onEditClick.bind(this);
+    this.onEditClick = this.onEditClick.bind(this);
+    this.onTextChange = this.onTextChange.bind(this);
+    this.onDrag = this.onDrag.bind(this);
   }
+
   onDeleteClick() {
-    this.props.onDelete(this.state.id);
+    this.props.onDelete(this.props.id);
   }
+
   onEditClick() {
     if (this.state.isEditing) {
-      this.state.isEditing = false;
-      // What do I retern for editing?
-      return <div>editing!</div>;
+      document.getElementById('textspace').disabled = true;
+      this.setState({
+        isEditing: false,
+      });
+      return <i className="fa fa-pencil-square-o" onClick={this.onEditClick} />;
     } else {
-      this.state.isEditing = true;
-      return <div>the usual stuff</div>;
+      document.getElementById('textspace').disabled = false;
+      this.setState({
+        isEditing: true,
+      });
+      return <i className="fa fa-check-square-o" onClick={this.onEditClick} />;
     }
   }
+  onTextChange(event) {
+    this.props.onUpdate(this.props.id, { text: event.target.value });
+  }
+
+  onDrag(event, ui) {
+    this.props.onUpdate(this.props.id, { x: ui.x, y: ui.y });
+  }
+
   render() {
     const { title, x, y, zIndex } = this.props.note;
     return (
       <Draggable
         handle=".note-mover"
         grid={[25, 25]}
-        defaultPosition={{ x: 20, y: 20 }}
-        position={{ x, y }}
+        defaultPosition={{ x: 20, y: 20, zIndex: 0 }}
+        position={{ x, y, zIndex }}
         onStart={this.onStartDrag}
         onDrag={this.onDrag}
         onStop={this.onStopDrag}
       >
         <div className="note">
           <h1>{title}
-            <i onClick={this.onDeleteClick} className="fa fa-trash-o" />
-            <i id="editButton" type="checkbox" onClick={this.onEditClick} className="fa fa-pencil-square-o" aria-hidden="true" />
-            <i className="fa fa-arrows-alt note-mover" aria-hidden="true"></i>
+            <i className="fa fa-trash-o" onClick={this.onDeleteClick} />
+            <i className="fa fa-arrows-alt note-mover"></i>
+            {this.onEditClick()}
           </h1>
-          <textarea />
+          <textarea id="textspace" onChange={this.onTextChange} />
         </div>
       </Draggable>
     );
