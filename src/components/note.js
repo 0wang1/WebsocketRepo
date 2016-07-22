@@ -57,7 +57,7 @@ class Note extends Component {
           <h1>{title}
             <i className="fa fa-trash-o" onClick={this.onDeleteClick} />
             <i className="fa fa-arrows-alt note-mover"></i>
-            {this.onEditClick()}
+            <i className="fa fa-pencil-square-o" onClick={this.onEditClick} />
           </h1>
           <textarea id="textspace" onChange={this.onTextChange} />
         </div>
