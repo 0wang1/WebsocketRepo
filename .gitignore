@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 node_modules
 config.js
 npm-debug.log
 dist
+=======
+npm-debug.log*
+build
+node_modules
+.npm
+>>>>>>> 3cf26a37eb20970644a4b7edcd784563cd9aec9b
